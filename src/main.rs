@@ -49,9 +49,13 @@ fn main() {
     loop {
         let entry = match it.next() {
             None => break,
-            Some(Err(err)) => panic!("ERROR: {}", err),
-            Some(Ok(entry)) => entry,
+            Some(Err(err)) => {
+                println!("Error: {}", err);
+                continue;
+            },
+            Some(Ok(entry)) => entry
         };
+
         if is_git_dir(&entry) {  // we've found a Git repo root
             if entry.file_type().is_dir() {
                 // stop searching below this directory since we've already
